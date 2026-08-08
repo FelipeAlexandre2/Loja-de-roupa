@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════
-   TT Store — Design System CSS (Glassmorphism & Rich Aesthetics)
+   TT Store — Design System CSS (Glassmorphism & Background Photo)
    Mobile-first: sidebar no desktop, bottom nav no mobile
    ══════════════════════════════════════════════════════════════ */
 
@@ -27,7 +27,7 @@
   font-weight: 400;
   color-scheme: light;
   color: var(--color-text);
-  background-color: var(--color-bg-light);
+  background-color: #0F172A;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -40,12 +40,12 @@ html, body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #F8FAFC;
+  background-color: #0F172A;
   background-image: 
-    radial-gradient(at 0% 0%, rgba(27, 46, 94, 0.12) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(200, 16, 46, 0.08) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.09) 0px, transparent 50%),
-    radial-gradient(at 0% 100%, rgba(241, 245, 249, 1) 0px, transparent 50%);
+    linear-gradient(135deg, rgba(15, 23, 42, 0.80) 0%, rgba(27, 46, 94, 0.75) 100%),
+    url('/background.png');
+  background-size: cover;
+  background-position: center;
   background-attachment: fixed;
   -webkit-text-size-adjust: 100%;
 }
@@ -83,7 +83,7 @@ html, body {
 .btn-secondary:hover { background: var(--color-navy-light); transform: translateY(-1px); }
 
 .btn-outline {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(8px);
   border: 1.5px solid var(--color-border);
   color: var(--color-text);
@@ -92,17 +92,17 @@ html, body {
 
 /* ── Glassmorphism Card ───────────────────────────────────────── */
 .card {
-  background: rgba(255, 255, 255, 0.82) !important;
-  backdrop-filter: blur(14px) saturate(180%);
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   border-radius: var(--radius-lg);
-  box-shadow: 0 10px 30px rgba(27, 46, 94, 0.06), 0 1px 3px rgba(27, 46, 94, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.18), 0 1px 3px rgba(27, 46, 94, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   animation: fadeInUp 0.45s ease-out forwards;
 }
-.card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(27,46,94,0.12) !important; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 20px 48px rgba(15, 23, 42, 0.25) !important; }
 
 /* ── Inputs ──────────────────────────────────────────────────── */
 .input, .textarea, .select {
@@ -110,7 +110,7 @@ html, body {
   padding: 0.6rem 0.85rem;
   border-radius: var(--radius-md);
   border: 1.5px solid rgba(203, 213, 225, 0.8);
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(6px);
   color: var(--color-text);
   font-family: inherit;
@@ -140,12 +140,15 @@ html, body {
 .sidebar {
   width: 240px;
   flex-shrink: 0;
-  background: linear-gradient(180deg, #1B2E5E 0%, #111D3D 100%);
+  background: rgba(17, 29, 61, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   color: var(--color-white);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 4px 0 24px rgba(17, 29, 61, 0.15);
+  border-right: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 4px 0 24px rgba(17, 29, 61, 0.25);
   z-index: 20;
 }
 
@@ -185,7 +188,7 @@ html, body {
   padding-left: 1.5rem;
 }
 .nav-item.active {
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.14);
   color: #fff;
   border-left-color: var(--color-red);
   font-weight: 700;
@@ -203,38 +206,12 @@ html, body {
   -webkit-overflow-scrolling: touch;
 }
 
-/* Esferas de luz ambiente decorativas no fundo */
-.main-content::before {
-  content: '';
-  position: fixed;
-  top: -120px;
-  right: -120px;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(200, 16, 46, 0.07) 0%, rgba(255, 255, 255, 0) 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-}
-.main-content::after {
-  content: '';
-  position: fixed;
-  bottom: -150px;
-  left: 120px;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(27, 46, 94, 0.09) 0%, rgba(255, 255, 255, 0) 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 0;
-}
-
 /* ── Topbar Desktop ──────────────────────────────────────────── */
 .topbar {
   height: 60px;
-  background: rgba(255, 255, 255, 0.82) !important;
-  backdrop-filter: blur(14px) saturate(180%);
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   display: flex;
   align-items: center;
@@ -271,23 +248,23 @@ html, body {
 
 /* ── Stat card ───────────────────────────────────────────────── */
 .stat-card {
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(14px) saturate(180%);
-  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   border-radius: var(--radius-lg);
   padding: 1.25rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-  box-shadow: 0 10px 30px rgba(27, 46, 94, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.15) !important;
+  border: 1px solid rgba(255, 255, 255, 0.85) !important;
   transition: all 0.25s ease;
   animation: fadeInUp 0.45s ease-out both;
   -webkit-tap-highlight-color: transparent;
 }
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(27, 46, 94, 0.12) !important;
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.25) !important;
 }
 
 /* ── Animações ───────────────────────────────────────────────── */
@@ -386,7 +363,6 @@ html, body {
 
   .stat-card { padding: 1rem; }
   .card { border-radius: 14px; }
-  .main-content::before { display: none; }
   .btn { padding: 0.65rem 1rem; font-size: 0.9rem; }
 }
 
