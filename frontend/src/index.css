@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════
-   TT Store — Design System CSS
+   TT Store — Design System CSS (Glassmorphism & Rich Aesthetics)
    Mobile-first: sidebar no desktop, bottom nav no mobile
    ══════════════════════════════════════════════════════════════ */
 
@@ -10,17 +10,17 @@
   --color-red:        #C8102E;
   --color-red-hover:  #E63950;
   --color-white:      #FFFFFF;
-  --color-bg-light:   #F5F7FB;
+  --color-bg-light:   #F8FAFC;
   --color-text:       #1B2E5E;
   --color-text-muted: #64748B;
-  --color-border:     #E2E8F0;
+  --color-border:     rgba(226, 232, 240, 0.8);
 
-  --shadow-sm: 0 1px 3px rgba(27,46,94,0.08);
-  --shadow-md: 0 4px 12px rgba(27,46,94,0.12);
-  --shadow-lg: 0 10px 32px rgba(27,46,94,0.16);
+  --shadow-sm: 0 2px 8px rgba(27,46,94,0.06);
+  --shadow-md: 0 8px 24px rgba(27,46,94,0.08);
+  --shadow-lg: 0 16px 40px rgba(27,46,94,0.12);
 
-  --radius-md: 0.5rem;
-  --radius-lg: 0.875rem;
+  --radius-md: 0.6rem;
+  --radius-lg: 1rem;
 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -40,8 +40,13 @@ html, body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: var(--color-bg-light);
-  /* Evita zoom no iOS ao clicar em inputs */
+  background-color: #F8FAFC;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(27, 46, 94, 0.12) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(200, 16, 46, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.09) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(241, 245, 249, 1) 0px, transparent 50%);
+  background-attachment: fixed;
   -webkit-text-size-adjust: 100%;
 }
 
@@ -67,44 +72,48 @@ html, body {
   font-family: inherit;
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 .btn:active { transform: scale(0.96); }
 
-.btn-primary  { background: var(--color-red);   color: #fff; }
-.btn-primary:hover  { background: var(--color-red-hover); }
+.btn-primary  { background: var(--color-red); color: #fff; box-shadow: 0 4px 12px rgba(200,16,46,0.3); }
+.btn-primary:hover  { background: var(--color-red-hover); transform: translateY(-1px); }
 
-.btn-secondary { background: var(--color-navy); color: #fff; }
-.btn-secondary:hover { background: var(--color-navy-light); }
+.btn-secondary { background: var(--color-navy); color: #fff; box-shadow: 0 4px 12px rgba(27,46,94,0.25); }
+.btn-secondary:hover { background: var(--color-navy-light); transform: translateY(-1px); }
 
 .btn-outline {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
   border: 1.5px solid var(--color-border);
   color: var(--color-text);
 }
-.btn-outline:hover { background: var(--color-bg-light); border-color: var(--color-navy); }
+.btn-outline:hover { background: #ffffff; border-color: var(--color-navy); }
 
-/* ── Card ────────────────────────────────────────────────────── */
+/* ── Glassmorphism Card ───────────────────────────────────────── */
 .card {
-  background: var(--color-white);
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 30px rgba(27, 46, 94, 0.06), 0 1px 3px rgba(27, 46, 94, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   animation: fadeInUp 0.45s ease-out forwards;
 }
-.card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+.card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(27,46,94,0.12) !important; }
 
 /* ── Inputs ──────────────────────────────────────────────────── */
 .input, .textarea, .select {
   width: 100%;
   padding: 0.6rem 0.85rem;
   border-radius: var(--radius-md);
-  border: 1.5px solid var(--color-border);
-  background: var(--color-white);
+  border: 1.5px solid rgba(203, 213, 225, 0.8);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
   color: var(--color-text);
   font-family: inherit;
-  /* Mínimo 16px evita zoom automático no iOS */
   font-size: 16px;
   transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
@@ -113,7 +122,8 @@ html, body {
 .input:focus, .textarea:focus, .select:focus {
   outline: none;
   border-color: var(--color-navy);
-  box-shadow: 0 0 0 3px rgba(27,46,94,0.12);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(27,46,94,0.15);
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -130,11 +140,13 @@ html, body {
 .sidebar {
   width: 240px;
   flex-shrink: 0;
-  background: var(--color-navy);
+  background: linear-gradient(180deg, #1B2E5E 0%, #111D3D 100%);
   color: var(--color-white);
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  box-shadow: 4px 0 24px rgba(17, 29, 61, 0.15);
+  z-index: 20;
 }
 
 .sidebar-header {
@@ -144,11 +156,6 @@ html, body {
   gap: 0.75rem;
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
-
-/* Perfil no topo, menu ao centro e identidade da loja no rodapé */
-.sidebar > div:last-child { order: 1; }
-.sidebar-nav { order: 2; }
-.sidebar > a:first-child { order: 3; }
 
 .sidebar-nav {
   flex: 1;
@@ -173,12 +180,12 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 .nav-item:hover {
-  background: rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.08);
   color: #fff;
   padding-left: 1.5rem;
 }
 .nav-item.active {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.12);
   color: #fff;
   border-left-color: var(--color-red);
   font-weight: 700;
@@ -191,17 +198,44 @@ html, body {
   flex-direction: column;
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--color-bg-light);
+  background: transparent;
   position: relative;
-  /* Scroll suave no iOS */
   -webkit-overflow-scrolling: touch;
+}
+
+/* Esferas de luz ambiente decorativas no fundo */
+.main-content::before {
+  content: '';
+  position: fixed;
+  top: -120px;
+  right: -120px;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(200, 16, 46, 0.07) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+.main-content::after {
+  content: '';
+  position: fixed;
+  bottom: -150px;
+  left: 120px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(27, 46, 94, 0.09) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ── Topbar Desktop ──────────────────────────────────────────── */
 .topbar {
   height: 60px;
-  background: var(--color-white);
-  border-bottom: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
   display: flex;
   align-items: center;
   padding: 0 1.5rem;
@@ -217,6 +251,8 @@ html, body {
 .page-content {
   padding: 1.5rem;
   flex: 1;
+  position: relative;
+  z-index: 1;
 }
 
 /* ── Bottom Nav (só mobile) ──────────────────────────────────── */
@@ -225,7 +261,7 @@ html, body {
 }
 
 /* ══════════════════════════════════════════════════════════════
-   GRIDS
+   GRIDS & STAT CARDS
    ══════════════════════════════════════════════════════════════ */
 .grid { display: grid; gap: 1.25rem; }
 .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
@@ -235,22 +271,23 @@ html, body {
 
 /* ── Stat card ───────────────────────────────────────────────── */
 .stat-card {
-  background: var(--color-white);
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
   border-radius: var(--radius-lg);
   padding: 1.25rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 30px rgba(27, 46, 94, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
   transition: all 0.25s ease;
   animation: fadeInUp 0.45s ease-out both;
   -webkit-tap-highlight-color: transparent;
 }
 .stat-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-  border-color: transparent;
+  box-shadow: 0 16px 40px rgba(27, 46, 94, 0.12) !important;
 }
 
 /* ── Animações ───────────────────────────────────────────────── */
@@ -270,14 +307,10 @@ html, body {
 
 /* ══════════════════════════════════════════════════════════════
    RESPONSIVE — MOBILE (≤ 768px)
-   Sidebar some, topbar mobile aparece, bottom nav aparece
    ══════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
-
-  /* Esconde sidebar */
   .sidebar { display: none; }
 
-  /* Troca topbar */
   .topbar-desktop { display: none; }
   .topbar-mobile {
     display: flex;
@@ -286,16 +319,17 @@ html, body {
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(27,46,94,0.08);
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 2px 12px rgba(27,46,94,0.08);
   }
 
-  /* Padding-bottom para a bottom nav não cobrir conteúdo */
   .page-content {
     padding: 1rem 1rem;
     padding-bottom: calc(72px + env(safe-area-inset-bottom));
   }
 
-  /* Bottom Nav */
   .bottom-nav {
     display: flex;
     position: fixed;
@@ -304,9 +338,11 @@ html, body {
     right: 0;
     height: calc(60px + env(safe-area-inset-bottom));
     padding-bottom: env(safe-area-inset-bottom);
-    background: var(--color-white);
-    border-top: 1px solid var(--color-border);
-    box-shadow: 0 -4px 20px rgba(27,46,94,0.1);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 -4px 24px rgba(27,46,94,0.12);
     z-index: 100;
   }
 
@@ -331,7 +367,6 @@ html, body {
     color: var(--color-red);
   }
 
-  /* Linha de destaque no topo do ícone ativo */
   .bottom-nav-item.active::before {
     content: '';
     position: absolute;
@@ -343,36 +378,23 @@ html, body {
     border-radius: 0 0 3px 3px;
   }
 
-  /* Grids no mobile */
   .grid-cols-2,
   .grid-cols-3,
   .grid-cols-4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* Alguns grids de 3/4 colunas viram 1 coluna no mobile pequeno */
   .stat-card { padding: 1rem; }
-  .card { border-radius: 12px; }
-
-  /* Esconde o watermark do logo no fundo */
+  .card { border-radius: 14px; }
   .main-content::before { display: none; }
-
-  /* Inputs maiores para toque */
   .btn { padding: 0.65rem 1rem; font-size: 0.9rem; }
 }
 
-/* ══════════════════════════════════════════════════════════════
-   RESPONSIVE — MOBILE PEQUENO (≤ 480px)
-   ══════════════════════════════════════════════════════════════ */
 @media (max-width: 480px) {
   .grid-cols-2 { grid-template-columns: 1fr; }
-
   .page-content { padding: 0.75rem; padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
 }
 
-/* ══════════════════════════════════════════════════════════════
-   UTILITÁRIOS RESPONSIVOS
-   ══════════════════════════════════════════════════════════════ */
 .hide-mobile  { }
 .show-mobile  { display: none; }
 
