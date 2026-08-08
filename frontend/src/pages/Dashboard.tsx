@@ -222,7 +222,11 @@ const Dashboard: React.FC = () => {
         .tt-arrow {
           margin-left: auto;
           opacity: 0.35;
-          colo        .tt-section-title {
+          color: ${BRAND.navy};
+          transition: transform 0.25s, opacity 0.25s;
+          flex-shrink: 0;
+        }
+        .tt-section-title {
           font-size: 0.7rem;
           font-weight: 700;
           text-transform: uppercase;
