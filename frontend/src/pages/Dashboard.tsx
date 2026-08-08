@@ -222,41 +222,84 @@ const Dashboard: React.FC = () => {
         .tt-arrow {
           margin-left: auto;
           opacity: 0.35;
-          color: ${BRAND.navy};
-          transition: transform 0.25s, opacity 0.25s;
-          flex-shrink: 0;
-        }
-        .tt-divider-line {
-          flex: 1;
-          height: 1px;
-          background: ${BRAND.silver};
-        }
-        .tt-section-title {
+          colo        .tt-section-title {
           font-size: 0.7rem;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: 0.12em;
           color: ${BRAND.muted};
         }
+        .tt-hero-header {
+          background: linear-gradient(135deg, ${BRAND.navyDark} 0%, ${BRAND.navy} 60%, ${BRAND.navyLight} 100%);
+          border-radius: 18px;
+          padding: 2rem 2.5rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 1.5rem;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 8px 32px rgba(27,46,94,0.35);
+          animation: ttFadeUp 0.4s ease both;
+        }
+        .tt-hero-watermark {
+          position: absolute;
+          bottom: -40px;
+          left: 30%;
+          width: 210px;
+          height: 210px;
+          border-radius: 50%;
+          overflow: hidden;
+          pointer-events: none;
+          opacity: 0.15;
+          border: 2px solid rgba(255,255,255,0.25);
+          box-shadow: 0 0 30px rgba(255,255,255,0.1);
+        }
+        .tt-hero-title {
+          margin: 0;
+          color: ${BRAND.white};
+          font-size: 1.75rem;
+          font-weight: 800;
+          letter-spacing: -0.5px;
+          line-height: 1.1;
+        }
+        .tt-hero-avatar {
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          border: 3px solid rgba(255,255,255,0.2);
+          object-fit: cover;
+          flex-shrink: 0;
+        }
+        @media (max-width: 768px) {
+          .tt-hero-header {
+            padding: 1.25rem 1rem !important;
+            gap: 1rem !important;
+            border-radius: 14px !important;
+          }
+          .tt-hero-watermark {
+            width: 120px !important;
+            height: 120px !important;
+            bottom: -20px !important;
+            right: -10px !important;
+            left: auto !important;
+            opacity: 0.18 !important;
+          }
+          .tt-hero-title {
+            font-size: 1.25rem !important;
+          }
+          .tt-hero-avatar {
+            width: 48px !important;
+            height: 48px !important;
+          }
+        }
       `}</style>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
         {/* ══ HERO HEADER ══════════════════════════════════════════════ */}
-        <div style={{
-          background: `linear-gradient(135deg, ${BRAND.navyDark} 0%, ${BRAND.navy} 60%, ${BRAND.navyLight} 100%)`,
-          borderRadius: '18px',
-          padding: '2rem 2.5rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
-          position: 'relative',
-          overflow: 'hidden',
-          boxShadow: `0 8px 32px rgba(27,46,94,0.35)`,
-          animation: 'ttFadeUp 0.4s ease both',
-        }}>
+        <div className="tt-hero-header">
           {/* Decoração: estrela do logo */}
           <div style={{
             position: 'absolute', top: '-30px', right: '120px',
@@ -265,13 +308,7 @@ const Dashboard: React.FC = () => {
             pointerEvents: 'none',
           }} />
           {/* Marca d'água do símbolo TT Store na bola de fundo */}
-          <div style={{
-            position: 'absolute', bottom: '-40px', left: '30%',
-            width: '210px', height: '210px', borderRadius: '50%',
-            overflow: 'hidden', pointerEvents: 'none',
-            opacity: 0.15, border: '2px solid rgba(255,255,255,0.25)',
-            boxShadow: '0 0 30px rgba(255,255,255,0.1)',
-          }}>
+          <div className="tt-hero-watermark">
             <img
               src="/logo.png"
               alt=""
@@ -280,27 +317,27 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Logo + Saudação */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', position: 'relative', zIndex: 1, minWidth: 0, flex: 1 }}>
             <img
               src="/logo.png"
               alt="TT Store"
-              style={{ width: '64px', height: '64px', borderRadius: '50%', border: `3px solid rgba(255,255,255,0.2)`, objectFit: 'cover', flexShrink: 0 }}
+              className="tt-hero-avatar"
             />
-            <div>
-              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem', fontWeight: 500, marginBottom: '0.2rem', letterSpacing: '0.04em' }}>
+            <div style={{ minWidth: 0 }}>
+              <div style={{ color: 'rgba(255,255,255,0.55)', fontSize: '0.8rem', fontWeight: 500, marginBottom: '0.15rem', letterSpacing: '0.04em' }}>
                 {greet}, {username}
               </div>
-              <h1 style={{ margin: 0, color: BRAND.white, fontSize: '1.75rem', fontWeight: 800, letterSpacing: '-0.5px', lineHeight: 1.1 }}>
+              <h1 className="tt-hero-title">
                 TT Store &amp; Barbearia
               </h1>
-              <div style={{ marginTop: '0.4rem', color: 'rgba(255,255,255,0.38)', fontSize: '0.8rem' }}>
-                {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+              <div style={{ marginTop: '0.3rem', color: 'rgba(255,255,255,0.45)', fontSize: '0.75rem' }}>
+                {new Date().toLocaleDateString('pt-BR', { weekday: 'short', day: 'numeric', month: 'short' })}
               </div>
             </div>
           </div>
 
           {/* Botão Atualizar */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem', position: 'relative', zIndex: 1 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '0.5rem', position: 'relative', zIndex: 1, marginLeft: 'auto' }}>
             {error && (
               <span style={{ color: '#fca5a5', fontSize: '0.78rem', background: 'rgba(200,16,46,0.25)', padding: '0.35rem 0.8rem', borderRadius: '6px', border: '1px solid rgba(200,16,46,0.4)' }}>
                 ⚠️ {error}
