@@ -92,17 +92,28 @@ html, body {
 
 /* ── Glassmorphism Card ───────────────────────────────────────── */
 .card {
-  background: rgba(255, 255, 255, 0.88) !important;
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   border-radius: var(--radius-lg);
-  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.18), 0 1px 3px rgba(27, 46, 94, 0.04) !important;
-  border: 1px solid rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 12px 36px rgba(15, 23, 42, 0.18), 0 1px 3px rgba(27, 46, 94, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.85);
   overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   animation: fadeInUp 0.45s ease-out forwards;
 }
-.card:hover { transform: translateY(-3px); box-shadow: 0 20px 48px rgba(15, 23, 42, 0.25) !important; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 20px 48px rgba(15, 23, 42, 0.25); }
+
+/* Card Dark Hero (com alto contraste e degradê azul profundo) */
+.card-dark {
+  background: linear-gradient(135deg, #111D3D 0%, #1B2E5E 60%, #243A72 100%) !important;
+  color: #FFFFFF !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.45), 0 0 20px rgba(27, 46, 94, 0.3) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
 
 /* ── Inputs ──────────────────────────────────────────────────── */
 .input, .textarea, .select {

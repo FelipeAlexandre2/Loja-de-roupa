@@ -274,53 +274,54 @@ const CaixaContent: React.FC = () => {
             
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-                <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#1B2E5E', margin: 0, display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                    <Wallet color="#1B2E5E" size={26} /> Controle e Gestão de Caixa
+                <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#FFFFFF', margin: 0, display: 'flex', alignItems: 'center', gap: '0.6rem', textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}>
+                    <Wallet color="#38BDF8" size={28} /> Controle e Gestão de Caixa
                 </h1>
 
                 {/* Badge Status do Caixa */}
                 <div style={{
                     display: 'flex', alignItems: 'center', gap: '0.5rem',
-                    padding: '0.45rem 0.9rem', borderRadius: '20px',
-                    background: caixaAberto ? '#DCFCE7' : '#FEE2E2',
-                    color: caixaAberto ? '#15803D' : '#991B1B',
+                    padding: '0.5rem 1rem', borderRadius: '20px',
+                    background: caixaAberto ? '#166534' : '#991B1B',
+                    color: '#FFFFFF',
                     fontWeight: 800, fontSize: '0.85rem',
-                    border: `1px solid ${caixaAberto ? '#86EFAC' : '#FCA5A5'}`
+                    border: `1.5px solid ${caixaAberto ? '#4ADE80' : '#F87171'}`,
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
                 }}>
                     {caixaAberto ? <Unlock size={16} /> : <Lock size={16} />}
                     <span>{caixaAberto ? 'CAIXA ABERTO' : 'CAIXA FECHADO'}</span>
                 </div>
             </div>
 
-            {/* Saldo Final Estimado + Ações de Caixa */}
-            <div className="card" style={{ background: 'linear-gradient(135deg, #1B2E5E 0%, #243A72 100%)', color: 'white', padding: '1.75rem', borderRadius: '16px', boxShadow: '0 8px 24px rgba(27,46,94,0.18)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.25rem' }}>
+            {/* Saldo Final Estimado + Ações de Caixa (card-dark para alto contraste) */}
+            <div className="card-dark" style={{ padding: '1.75rem', borderRadius: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1.25rem' }}>
                 <div>
-                    <span style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.75)', textTransform: 'uppercase', letterSpacing: '0.05em', fontWeight: 700 }}>
+                    <span style={{ fontSize: '0.85rem', color: '#93C5FD', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 800 }}>
                         Saldo Atual em Dinheiro (Estimado)
                     </span>
-                    <h2 style={{ fontSize: '2.5rem', fontWeight: 900, margin: '0.3rem 0 0 0', color: 'white' }}>
+                    <h2 style={{ fontSize: '2.8rem', fontWeight: 900, margin: '0.2rem 0 0 0', color: '#FFFFFF', textShadow: '0 2px 10px rgba(0,0,0,0.4)', letterSpacing: '-0.5px' }}>
                         R$ {saldoEstimado.toFixed(2).replace('.', ',')}
                     </h2>
                     {valorAbertura > 0 && (
-                        <div style={{ fontSize: '0.78rem', color: '#93C5FD', marginTop: '0.3rem', fontWeight: 600 }}>
+                        <div style={{ fontSize: '0.82rem', color: '#6EE7B7', marginTop: '0.4rem', fontWeight: 700 }}>
                             🔓 Fundo de troco inicial: R$ {valorAbertura.toFixed(2).replace('.', ',')}
                         </div>
                     )}
                 </div>
 
                 {/* Botões Principais */}
-                <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: '0.65rem', flexWrap: 'wrap' }}>
                     {!caixaAberto ? (
                         <button 
                             onClick={() => { setModalTipo('ABERTURA'); setValorInput('100,00'); setDescInput('Fundo de troco inicial'); }}
-                            style={{ padding: '0.75rem 1.25rem', background: '#16A34A', color: 'white', border: 'none', borderRadius: '10px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', boxShadow: '0 4px 12px rgba(22,163,74,0.4)' }}
+                            style={{ padding: '0.75rem 1.25rem', background: '#16A34A', color: '#FFFFFF', border: 'none', borderRadius: '10px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', boxShadow: '0 4px 14px rgba(22,163,74,0.5)' }}
                         >
                             <Unlock size={18} /> Abrir Caixa
                         </button>
                     ) : (
                         <button 
                             onClick={() => { setModalTipo('FECHAMENTO'); setValorContadoInput(saldoEstimado.toFixed(2).replace('.', ',')); setDescInput(''); }}
-                            style={{ padding: '0.75rem 1.25rem', background: '#C8102E', color: 'white', border: 'none', borderRadius: '10px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', boxShadow: '0 4px 12px rgba(200,16,46,0.4)' }}
+                            style={{ padding: '0.75rem 1.25rem', background: '#C8102E', color: '#FFFFFF', border: 'none', borderRadius: '10px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem', boxShadow: '0 4px 14px rgba(200,16,46,0.5)' }}
                         >
                             <Lock size={18} /> Fechar Caixa
                         </button>
@@ -328,16 +329,16 @@ const CaixaContent: React.FC = () => {
 
                     <button 
                         onClick={() => { setModalTipo('TROCO'); setValorInput(''); setDescInput(''); }}
-                        style={{ padding: '0.75rem 1rem', background: 'rgba(255,255,255,0.15)', color: 'white', border: '1px solid rgba(255,255,255,0.25)', borderRadius: '10px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem' }}
+                        style={{ padding: '0.75rem 1.1rem', background: '#2563EB', color: '#FFFFFF', border: 'none', borderRadius: '10px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.88rem', boxShadow: '0 4px 14px rgba(37,99,235,0.4)' }}
                     >
-                        <ArrowUpCircle size={16} /> + Troco
+                        <ArrowUpCircle size={17} /> + Troco
                     </button>
                     
                     <button 
                         onClick={() => { setModalTipo('RETIRADA'); setValorInput(''); setDescInput(''); }}
-                        style={{ padding: '0.75rem 1rem', background: 'rgba(255,255,255,0.15)', color: 'white', border: '1px solid rgba(255,255,255,0.25)', borderRadius: '10px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.85rem' }}
+                        style={{ padding: '0.75rem 1.1rem', background: '#DC2626', color: '#FFFFFF', border: 'none', borderRadius: '10px', fontWeight: 800, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.88rem', boxShadow: '0 4px 14px rgba(220,38,38,0.4)' }}
                     >
-                        <ArrowDownCircle size={16} /> - Retirada
+                        <ArrowDownCircle size={17} /> - Retirada
                     </button>
                 </div>
             </div>
