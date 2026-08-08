@@ -191,6 +191,7 @@ const CaixaContent: React.FC = () => {
             <body>
               <div class="text-center">
                 <div class="title">TT STORE & BARBEARIA</div>
+                <div style="font-weight: bold; font-size: 10px; margin: 2px 0;">*** COMPROVANTE NÃO FISCAL ***</div>
                 <div>COMPROVANTE DE FECHAMENTO</div>
                 <div>Data: ${dataHoje} - ${horaHoje}</div>
                 <div>Operador: ${operador}</div>

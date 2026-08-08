@@ -94,6 +94,7 @@ const Fiado: React.FC = () => {
       <body>
         <div class="header">
           <h1 class="title">TT STORE & BARBEARIA</h1>
+          <div style="font-size: 11px; font-weight: bold; margin-top: 2px;">*** COMPROVANTE NÃO FISCAL ***</div>
           <div class="sub">EXTRATO DETALHADO DE COMPRAS FIADO • ${dataHoje} às ${horaHoje}</div>
         </div>
 

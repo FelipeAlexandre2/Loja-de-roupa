@@ -34,7 +34,7 @@ export const gerarECupomImpressao = (
     <html>
     <head>
       <meta charset="utf-8" />
-      <title>Cupom - TT Store</title>
+      <title>Cupom Não Fiscal - TT Store</title>
       <style>
         * { box-sizing: border-box; }
         @page { size: auto; margin: 2mm 0mm; }
@@ -56,7 +56,7 @@ export const gerarECupomImpressao = (
         .text-right { text-align: right; }
         .line { border-top: 1px dashed #000; margin: 4px 0; }
         .title { font-size: 13px; font-weight: 900; letter-spacing: 0.5px; }
-        .subtitle { font-size: 9.5px; color: #000; text-transform: uppercase; margin-top: 1px; }
+        .subtitle { font-size: 10px; color: #000; text-transform: uppercase; margin-top: 2px; font-weight: 800; }
         .item-row { display: flex; justify-content: space-between; font-size: 10.5px; }
         .bold { font-weight: 800; }
         @media print {
@@ -69,7 +69,7 @@ export const gerarECupomImpressao = (
       <div class="cupom-box">
         <div class="text-center">
           <div class="title">TT STORE & BARBEARIA</div>
-          <div class="subtitle">Comprovante de Compra</div>
+          <div class="subtitle">*** COMPROVANTE NÃO FISCAL ***</div>
           <div style="font-size:9.5px; margin-top:2px;">${dataHoje} - ${horaHoje}</div>
           ${clienteNome ? `<div style="margin-top:3px; font-weight:bold; font-size:10px;">Cliente: ${clienteNome}</div>` : ''}
         </div>
@@ -122,15 +122,10 @@ export const gerarECupomImpressao = (
           <div style="font-weight: bold; margin-top: 1px;">Volte Sempre!</div>
         </div>
       </div>
-
-      <script>
-        window.onload = function() {
-          window.print();
-        };
-      </script>
     </body>
     </html>
   `;
   win.document.write(html);
   win.document.close();
+  win.print();
 };
