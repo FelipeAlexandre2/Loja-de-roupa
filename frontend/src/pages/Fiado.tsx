@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   BookOpen, Plus, Search, X, CheckCircle, AlertTriangle,
   User, Phone, DollarSign, Clock, Trash2, ChevronRight,
-  ArrowDownCircle, ArrowUpCircle, RefreshCw, CreditCard, MapPin
+  ArrowDownCircle, ArrowUpCircle, RefreshCw, CreditCard, MapPin, Printer, Tag
 } from 'lucide-react';
 import { fetchWithAuth } from '../utils/fetchWithAuth';
 import { getApiUrl } from '../utils/apiUrl';
@@ -61,6 +61,101 @@ const Fiado: React.FC = () => {
     const id = Date.now();
     setToasts(p => [...p, { id, tipo, mensagem }]);
     setTimeout(() => setToasts(p => p.filter(t => t.id !== id)), 4000);
+  };
+
+  /* ── Impressão de Extrato Detalhado ── */
+  const imprimirExtrato = (c: Cliente, lList: Lancamento[]) => {
+    const win = window.open('', '_blank');
+    if (!win) return;
+    const dataHoje = new Date().toLocaleDateString('pt-BR');
+    const horaHoje = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Extrato Fiado - ${c.nome}</title>
+        <style>
+          body { font-family: 'Segoe UI', Arial, sans-serif; padding: 20px; color: #1e293b; max-width: 650px; margin: 0 auto; }
+          .header { text-align: center; border-bottom: 2px solid #1B2E5E; padding-bottom: 12px; margin-bottom: 20px; }
+          .title { font-size: 20px; font-weight: 800; color: #1B2E5E; margin: 0; }
+          .sub { font-size: 11px; color: #64748b; margin-top: 4px; }
+          .box { background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; }
+          .box-title { font-weight: 700; font-size: 14px; color: #1B2E5E; margin-bottom: 6px; }
+          .item-row { border-bottom: 1px solid #F1F5F9; padding: 10px 0; display: flex; justify-content: space-between; font-size: 13px; }
+          .badge-debito { color: #C8102E; font-weight: 800; }
+          .badge-pago { color: #16a34a; font-weight: 800; }
+          .desc-detalhe { font-size: 11px; color: #334155; background: #FFF; border: 1px solid #CBD5E1; padding: 6px 10px; border-radius: 6px; margin-top: 6px; line-height: 1.4; }
+          .total-box { background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 14px; text-align: right; margin-top: 20px; }
+          .total-val { font-size: 22px; font-weight: 900; color: #C8102E; }
+          @media print { body { padding: 0; } }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1 class="title">TT STORE & BARBEARIA</h1>
+          <div class="sub">EXTRATO DETALHADO DE COMPRAS FIADO • ${dataHoje} às ${horaHoje}</div>
+        </div>
+
+        <div class="box">
+          <div class="box-title">Cliente: ${c.nome}</div>
+          ${c.telefone ? `<div style="font-size:12px;color:#64748b;">📱 Telefone: ${c.telefone}</div>` : ''}
+          ${(c as any).cpf ? `<div style="font-size:12px;color:#64748b;">🪪 CPF: ${(c as any).cpf}</div>` : ''}
+          ${(c as any).endereco ? `<div style="font-size:12px;color:#64748b;">📍 Endereço: ${(c as any).endereco}</div>` : ''}
+        </div>
+
+        <div class="box-title">Histórico Detalhado de Compras e Pagamentos</div>
+        ${lList.length === 0 ? '<div style="font-size:13px;color:#94a3b8;">Nenhum lançamento registrado.</div>' : lList.map(l => `
+          <div class="item-row">
+            <div>
+              <strong>${new Date(l.data).toLocaleDateString('pt-BR')} ${new Date(l.data).toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'})}</strong> — 
+              <span>${l.tipo === 'DEBITO' ? '🛒 Compra Fiado' : '💰 Pagamento / Quitação'}</span>
+              ${l.descricao ? `<div class="desc-detalhe">📌 <strong>Itens / Detalhes:</strong> ${l.descricao.replace(/ \+ /g, '<br/>• ')}</div>` : ''}
+            </div>
+            <div class="${l.tipo === 'DEBITO' ? 'badge-debito' : 'badge-pago'}">
+              ${l.tipo === 'DEBITO' ? '+' : '-'} R$ ${l.valor.toFixed(2).replace('.', ',')}
+            </div>
+          </div>
+        `).join('')}
+
+        <div class="total-box">
+          <div style="font-size:11px;color:#991B1B;font-weight:800;text-transform:uppercase;">Saldo Devedor Total Atual</div>
+          <div class="total-val">R$ ${c.totalDevido.toFixed(2).replace('.', ',')}</div>
+        </div>
+
+        <script>window.onload = function() { window.print(); };</script>
+      </body>
+      </html>
+    `;
+    win.document.write(html);
+    win.document.close();
+  };
+
+  /* ── Formatar Descrição Detalhada dos Lançamentos ── */
+  const renderDescricaoDetalhada = (desc?: string, tipo?: 'DEBITO' | 'PAGAMENTO') => {
+    if (!desc) return <div style={{ fontSize: '0.8rem', color: '#64748b', fontStyle: 'italic' }}>{tipo === 'DEBITO' ? 'Compra sem descrição' : 'Pagamento efetuado'}</div>;
+    
+    // Se for uma compra com itens detalhados (ex: "Compra PDV: 2x Camiseta (R$ 50,00) + 1x Calça (R$ 100,00)")
+    if (desc.includes(' + ') || desc.includes('x ') || desc.includes('Compra PDV')) {
+      const textoLimpo = desc.replace(/^Compra PDV:\s*/i, '');
+      const itens = textoLimpo.split(' + ');
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem', marginTop: '0.25rem' }}>
+          <div style={{ fontSize: '0.72rem', fontWeight: 800, color: '#1B2E5E', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <Tag size={12} color="#1B2E5E" /> Detalhamento das Peças:
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.35rem' }}>
+            {itens.map((item, idx) => (
+              <span key={idx} style={{ background: '#F1F5F9', border: '1px solid #CBD5E1', padding: '0.2rem 0.55rem', borderRadius: '6px', fontSize: '0.75rem', color: '#1E293B', fontWeight: 700 }}>
+                • {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    return <div style={{ fontSize: '0.82rem', color: '#334155', marginTop: '0.1rem', fontWeight: 600 }}>{desc}</div>;
   };
 
   /* ── Buscar clientes ── */
@@ -447,9 +542,23 @@ const Fiado: React.FC = () => {
                       )}
                     </div>
                   </div>
-                  <button onClick={() => setClienteSel(null)} style={{ background: 'rgba(255,255,255,0.12)', border: 'none', color: 'white', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                    <X size={14} />
-                  </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                    <button
+                      onClick={() => imprimirExtrato(clienteSel, lancamentos)}
+                      title="Imprimir Extrato Detalhado do Cliente"
+                      style={{
+                        background: 'rgba(255,255,255,0.18)', border: '1px solid rgba(255,255,255,0.3)',
+                        color: 'white', borderRadius: '8px', padding: '0.35rem 0.65rem',
+                        display: 'flex', alignItems: 'center', gap: '0.35rem', cursor: 'pointer',
+                        fontSize: '0.75rem', fontWeight: 700, fontFamily: 'inherit'
+                      }}
+                    >
+                      <Printer size={13} /> Imprimir Extrato
+                    </button>
+                    <button onClick={() => setClienteSel(null)} style={{ background: 'rgba(255,255,255,0.12)', border: 'none', color: 'white', borderRadius: '50%', width: 28, height: 28, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                      <X size={14} />
+                    </button>
+                  </div>
                 </div>
 
                 {/* Saldo + botões */}
@@ -473,9 +582,9 @@ const Fiado: React.FC = () => {
                 </div>
 
                 {/* Histórico de lançamentos */}
-                <div style={{ flex: 1, overflowY: 'auto', maxHeight: '320px' }}>
+                <div style={{ flex: 1, overflowY: 'auto', maxHeight: '360px' }}>
                   <div style={{ padding: '0.6rem 1.25rem', fontSize: '0.7rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.06em', borderBottom: '1px solid var(--color-border)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Clock size={12} /> Histórico
+                    <Clock size={12} /> Histórico Detalhado
                   </div>
                   {loadingLanc ? (
                     <div style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8' }}>
@@ -484,22 +593,26 @@ const Fiado: React.FC = () => {
                   ) : lancamentos.length === 0 ? (
                     <div style={{ padding: '2rem', textAlign: 'center', color: '#94a3b8', fontSize: '0.85rem' }}>Nenhum lançamento ainda</div>
                   ) : lancamentos.map(l => (
-                    <div key={l.id} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1.25rem', borderBottom: '1px solid #f8fafc' }}>
-                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: l.tipo === 'DEBITO' ? '#FEE2E2' : '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <div key={l.id} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.85rem 1.25rem', borderBottom: '1px solid #f8fafc' }}>
+                      <div style={{ width: 32, height: 32, borderRadius: '50%', background: l.tipo === 'DEBITO' ? '#FEE2E2' : '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
                         {l.tipo === 'DEBITO'
                           ? <ArrowDownCircle size={16} color="#C8102E" />
                           : <ArrowUpCircle size={16} color="#16a34a" />
                         }
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontWeight: 600, fontSize: '0.85rem', color: '#1e293b' }}>
-                          {l.descricao || (l.tipo === 'DEBITO' ? 'Fiado' : 'Pagamento')}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                          <span style={{ fontWeight: 800, fontSize: '0.88rem', color: l.tipo === 'DEBITO' ? '#991B1B' : '#166534' }}>
+                            {l.tipo === 'DEBITO' ? '🛒 Compra Fiado' : '💰 Pagamento'}
+                          </span>
+                          <span style={{ fontSize: '0.68rem', color: '#94a3b8' }}>
+                            • {new Date(l.data).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })}
+                          </span>
                         </div>
-                        <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
-                          {new Date(l.data).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' })}
-                        </div>
+
+                        {renderDescricaoDetalhada(l.descricao, l.tipo)}
                       </div>
-                      <div style={{ fontWeight: 800, fontSize: '0.95rem', color: l.tipo === 'DEBITO' ? '#C8102E' : '#16a34a', whiteSpace: 'nowrap' }}>
+                      <div style={{ fontWeight: 900, fontSize: '1rem', color: l.tipo === 'DEBITO' ? '#C8102E' : '#16a34a', whiteSpace: 'nowrap' }}>
                         {l.tipo === 'DEBITO' ? '+' : '-'} R$ {l.valor.toFixed(2).replace('.', ',')}
                       </div>
                     </div>

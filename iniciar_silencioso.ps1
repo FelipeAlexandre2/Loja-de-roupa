@@ -1,19 +1,11 @@
 # ============================================================
-# TT Store & Barbearia - Launcher & Restarter Silencioso Ultra-Rápido
+# TT Store & Barbearia - Launcher Ultra-Rápido (~2 segundos)
 # ============================================================
 
 $ErrorActionPreference = "SilentlyContinue"
 $workDir = "c:\PROJETOS\loja-roupas"
 
-# 1. Elevação de Administrador Silenciosa
-$isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-if (-not $isAdmin) {
-    Start-Process powershell -ArgumentList "-ExecutionPolicy Bypass -NoProfile -WindowStyle Hidden -File `"$PSCommandPath`"" -Verb RunAs -WindowStyle Hidden
-    exit
-}
-
-# 2. Encerrar todos os processos antigos (Reinicialização limpa)
-Get-Process java, node -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+# 1. Encerrar processos antigos nas portas 8080 e 5173
 foreach ($port in @(8080, 5173)) {
     $lines = netstat -ano 2>$null | findstr ":$port" | findstr "LISTENING"
     foreach ($line in $lines) {
@@ -24,54 +16,40 @@ foreach ($port in @(8080, 5173)) {
         }
     }
 }
+Get-Process java -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
 
-Start-Sleep -Seconds 1
+# 2. Localizar java.exe
+$javaCmd = (Get-Command java -ErrorAction SilentlyContinue).Source
+if (-not $javaCmd) { $javaCmd = "C:\Program Files\Common Files\Oracle\Java\javapath\java.exe" }
 
-# 3. Recompilar o Backend se necessário
+# 3. Path do JAR do Backend
 $backendDir = "$workDir\backend"
 $jarPath = "$backendDir\target\backend-0.0.1-SNAPSHOT.jar"
 
-# Copia a versão de produção do frontend (dist) para a pasta de arquivos estáticos do Spring Boot
-$distDir = "$workDir\frontend\dist"
-$staticDir = "$backendDir\src\main\resources\static"
-if (Test-Path $distDir) {
-    Remove-Item "$staticDir\*" -Recurse -Force -ErrorAction SilentlyContinue
-    Copy-Item "$distDir\*" -Destination $staticDir -Recurse -Force
+if (-not (Test-Path $jarPath)) {
+    Set-Location $backendDir
+    & ".\mvnw.cmd" package -DskipTests -q >$null 2>&1
 }
 
-# Compila o JAR único
-Set-Location $backendDir
-& ".\mvnw.cmd" package -DskipTests -q >$null 2>&1
+# 4. Iniciar Backend Java diretamente via JAR (boot em ~2s)
+Start-Process -FilePath $javaCmd -ArgumentList "-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -noverify -jar `"$jarPath`"" -WindowStyle Hidden -WorkingDirectory $backendDir
 
-# 4. Liberar Firewall Silenciosamente
-netsh advfirewall firewall delete rule name="TT Store Frontend" >$null 2>&1
-netsh advfirewall firewall delete rule name="TT Store Backend" >$null 2>&1
-netsh advfirewall firewall add rule name="TT Store Frontend" dir=in action=allow protocol=TCP localport=5173 profile=any >$null 2>&1
-netsh advfirewall firewall add rule name="TT Store Backend" dir=in action=allow protocol=TCP localport=8080 profile=any >$null 2>&1
-Set-NetConnectionProfile -NetworkCategory Private -ErrorAction SilentlyContinue >$null 2>&1
-
-# 5. Iniciar Backend (Java) com Otimização Ultra-Rápida de Boot (-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -noverify)
-if (Test-Path $jarPath) {
-    Start-Process -FilePath "java" -ArgumentList "-XX:+TieredCompilation -XX:TieredStopAtLevel=1 -noverify -jar `"$jarPath`"" -WindowStyle Hidden -WorkingDirectory $backendDir
-}
-
-# 6. Também inicia o Frontend Vite de dev em background (porta 5173) para suporte a conexões de dev se necessário
+# 5. Iniciar Frontend Vite em background (porta 5173)
 $frontendDir = "$workDir\frontend"
 Start-Process -FilePath "cmd.exe" -ArgumentList "/c npm run dev" -WindowStyle Hidden -WorkingDirectory $frontendDir
 
-# 7. Sondagem Ultra-Rápida (a cada 150ms) para abrir no navegador assim que responder
-$backendReady = $false
-
-for ($i = 0; $i -lt 100; $i++) {
+# 6. Aguarda o servidor responder para abrir o navegador
+for ($i = 0; $i -lt 40; $i++) {
     Start-Sleep -Milliseconds 150
-
     try {
         $req = [System.Net.WebRequest]::Create("http://localhost:8080/api/auth/me")
-        $req.Timeout = 400
+        $req.Timeout = 300
         $res = $req.GetResponse()
-        if ($res) { $backendReady = $true; $res.Close(); break }
-    } catch { }
+        if ($res) { $res.Close(); break }
+    } catch {
+        if ($_.Exception.Response) { break }
+    }
 }
 
-# 8. Abrir navegador na porta 8080 (Servidor de Produção Ultra-Rápido)
-Start-Process "http://localhost:8080"
+# 7. Abrir navegador na porta 5173
+Start-Process "http://localhost:5173"

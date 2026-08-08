@@ -141,7 +141,7 @@ const PDV: React.FC = () => {
         if (clienteFiadoId !== null && 'Fiado' in pagamentos) {
           const vFiado = parseFloat(pagamentos['Fiado']?.replace(',', '.') || '0');
           const valorFiado = vFiado > 0 ? vFiado : total;
-          const descFiado = `Compra PDV \u2013 ${carrinho.map(i => i.nome).join(', ')}`;
+          const descFiado = `Compra PDV: ` + carrinho.map(i => `${i.quantidade}x ${i.nome} (R$ ${i.preco.toFixed(2).replace('.', ',')})`).join(' + ');
           await fetchWithAuth(`${getApiUrl()}/api/fiado/lancamentos`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
