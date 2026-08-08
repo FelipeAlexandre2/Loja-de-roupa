@@ -34,12 +34,31 @@ public class MovimentacaoCaixaService {
 
         BigDecimal totalSuprimento = BigDecimal.ZERO;
         BigDecimal totalSangria = BigDecimal.ZERO;
+        BigDecimal valorAbertura = BigDecimal.ZERO;
+        BigDecimal valorFechamento = BigDecimal.ZERO;
+        BigDecimal diferencaFechamento = BigDecimal.ZERO;
+        String statusCaixa = "FECHADO";
+        String dataHoraAbertura = null;
+        String dataHoraFechamento = null;
 
         for (MovimentacaoCaixa m : movs) {
-            if ("SANGRIA".equalsIgnoreCase(m.getTipo())) {
+            String t = m.getTipo() != null ? m.getTipo().toUpperCase() : "";
+            if ("SANGRIA".equals(t) || "RETIRADA".equals(t)) {
                 totalSangria = totalSangria.add(m.getValor());
-            } else if ("SUPRIMENTO".equalsIgnoreCase(m.getTipo())) {
+            } else if ("SUPRIMENTO".equals(t) || "TROCO".equals(t)) {
                 totalSuprimento = totalSuprimento.add(m.getValor());
+            } else if ("ABERTURA".equals(t)) {
+                valorAbertura = m.getValor();
+                totalSuprimento = totalSuprimento.add(m.getValor());
+                statusCaixa = "ABERTO";
+                dataHoraAbertura = m.getDataHora().toString();
+            } else if ("FECHAMENTO".equals(t)) {
+                valorFechamento = m.getValor();
+                if (m.getDiferenca() != null) {
+                    diferencaFechamento = m.getDiferenca();
+                }
+                statusCaixa = "FECHADO";
+                dataHoraFechamento = m.getDataHora().toString();
             }
         }
 
@@ -47,6 +66,15 @@ public class MovimentacaoCaixaService {
         resumo.put("data", LocalDateTime.now().toLocalDate().toString());
         resumo.put("totalSangria", totalSangria);
         resumo.put("totalSuprimento", totalSuprimento);
+        resumo.put("totalRetirada", totalSangria);
+        resumo.put("totalTroco", totalSuprimento);
+        resumo.put("valorAbertura", valorAbertura);
+        resumo.put("valorFechamento", valorFechamento);
+        resumo.put("diferencaFechamento", diferencaFechamento);
+        resumo.put("statusCaixa", statusCaixa);
+        resumo.put("dataHoraAbertura", dataHoraAbertura);
+        resumo.put("dataHoraFechamento", dataHoraFechamento);
+        resumo.put("movimentacoes", movs);
 
         return resumo;
     }

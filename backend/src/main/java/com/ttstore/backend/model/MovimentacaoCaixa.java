@@ -11,12 +11,16 @@ public class MovimentacaoCaixa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // "SANGRIA" ou "SUPRIMENTO"
+    // "RETIRADA" (Sangria), "TROCO" (Suprimento), "ABERTURA", "FECHAMENTO"
     @Column(nullable = false)
     private String tipo;
 
     @Column(nullable = false)
     private BigDecimal valor;
+
+    private BigDecimal valorContado;
+
+    private BigDecimal diferenca;
 
     private String descricao;
 
@@ -52,6 +56,22 @@ public class MovimentacaoCaixa {
 
     public void setValor(BigDecimal valor) {
         this.valor = valor;
+    }
+
+    public BigDecimal getValorContado() {
+        return valorContado;
+    }
+
+    public void setValorContado(BigDecimal valorContado) {
+        this.valorContado = valorContado;
+    }
+
+    public BigDecimal getDiferenca() {
+        return diferenca;
+    }
+
+    public void setDiferenca(BigDecimal diferenca) {
+        this.diferenca = diferenca;
     }
 
     public String getDescricao() {
