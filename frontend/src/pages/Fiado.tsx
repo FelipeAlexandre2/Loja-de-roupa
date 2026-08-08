@@ -123,7 +123,7 @@ const Fiado: React.FC = () => {
           <div class="total-val">R$ ${c.totalDevido.toFixed(2).replace('.', ',')}</div>
         </div>
 
-        <script>window.onload = function() { window.print(); };</script>
+        <' + 'script>window.onload = function() { window.print(); };</' + 'script>
       </body>
       </html>
     `;

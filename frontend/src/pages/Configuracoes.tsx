@@ -339,7 +339,7 @@ export default function Configuracoes() {
                         onClick={() => setAbaAtiva('usuarios')}
                         style={{
                             display: 'flex', alignItems: 'center', gap: '0.5rem',
-                            padding: '0.65rem 1.25rem', borderRadius: '8px', border: 'none',
+                            padding: '0.65rem 1.25rem', borderRadius: '8px',
                             background: abaAtiva === 'usuarios' ? B.navy : 'white',
                             color: abaAtiva === 'usuarios' ? B.white : B.muted,
                             border: abaAtiva === 'usuarios' ? 'none' : `1px solid ${B.border}`,
@@ -353,7 +353,7 @@ export default function Configuracoes() {
                         onClick={() => { setAbaAtiva('backup'); loadBackups(); }}
                         style={{
                             display: 'flex', alignItems: 'center', gap: '0.5rem',
-                            padding: '0.65rem 1.25rem', borderRadius: '8px', border: 'none',
+                            padding: '0.65rem 1.25rem', borderRadius: '8px',
                             background: abaAtiva === 'backup' ? B.navy : 'white',
                             color: abaAtiva === 'backup' ? B.white : B.muted,
                             border: abaAtiva === 'backup' ? 'none' : `1px solid ${B.border}`,
@@ -367,7 +367,7 @@ export default function Configuracoes() {
                         onClick={() => setAbaAtiva('diagnostico')}
                         style={{
                             display: 'flex', alignItems: 'center', gap: '0.5rem',
-                            padding: '0.65rem 1.25rem', borderRadius: '8px', border: 'none',
+                            padding: '0.65rem 1.25rem', borderRadius: '8px',
                             background: abaAtiva === 'diagnostico' ? B.navy : 'white',
                             color: abaAtiva === 'diagnostico' ? B.white : B.muted,
                             border: abaAtiva === 'diagnostico' ? 'none' : `1px solid ${B.border}`,
