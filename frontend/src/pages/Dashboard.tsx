@@ -264,12 +264,20 @@ const Dashboard: React.FC = () => {
             background: `radial-gradient(circle, ${BRAND.red}22, transparent 70%)`,
             pointerEvents: 'none',
           }} />
+          {/* Marca d'água do símbolo TT Store na bola de fundo */}
           <div style={{
             position: 'absolute', bottom: '-40px', left: '30%',
-            width: '200px', height: '200px', borderRadius: '50%',
-            background: 'rgba(255,255,255,0.03)',
-            pointerEvents: 'none',
-          }} />
+            width: '210px', height: '210px', borderRadius: '50%',
+            overflow: 'hidden', pointerEvents: 'none',
+            opacity: 0.15, border: '2px solid rgba(255,255,255,0.25)',
+            boxShadow: '0 0 30px rgba(255,255,255,0.1)',
+          }}>
+            <img
+              src="/logo.png"
+              alt=""
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </div>
 
           {/* Logo + Saudação */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
