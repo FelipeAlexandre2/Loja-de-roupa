@@ -244,15 +244,12 @@ const CaixaContent: React.FC = () => {
                 <div>_______________________________</div>
                 <div style="font-size: 10px; margin-top: 3px;">Assinatura do Responsável</div>
               </div>
-
-              <' + 'script>
-                window.onload = function() { window.print(); };
-              </' + 'script>
             </body>
             </html>
         `;
         win.document.write(html);
         win.document.close();
+        win.print();
     };
 
     if (loading) return <div style={{ padding: '2rem', textAlign: 'center', color: '#64748B' }}>Carregando dados do caixa...</div>;
