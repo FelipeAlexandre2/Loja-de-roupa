@@ -1,0 +1,60 @@
+[2m12:06:56[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "border" in object literal[33m
+343 |                background: abaAtiva === 'usuarios' ? B.navy : 'white',
+344 |                color: abaAtiva === 'usuarios' ? B.white : B.muted,
+345 |                border: abaAtiva === 'usuarios' ? 'none' : `1px solid ${B.border}`,
+    |                ^
+346 |                fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer',
+347 |                transition: 'all 0.15s'
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/PROJETOS/loja-roupas/frontend/src/pages/Configuracoes.tsx[39m
+[2m12:06:56[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "border" in object literal[33m
+357 |                background: abaAtiva === 'backup' ? B.navy : 'white',
+358 |                color: abaAtiva === 'backup' ? B.white : B.muted,
+359 |                border: abaAtiva === 'backup' ? 'none' : `1px solid ${B.border}`,
+    |                ^
+360 |                fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer',
+361 |                transition: 'all 0.15s'
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/PROJETOS/loja-roupas/frontend/src/pages/Configuracoes.tsx[39m
+[2m12:06:56[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "border" in object literal[33m
+371 |                background: abaAtiva === 'diagnostico' ? B.navy : 'white',
+372 |                color: abaAtiva === 'diagnostico' ? B.white : B.muted,
+373 |                border: abaAtiva === 'diagnostico' ? 'none' : `1px solid ${B.border}`,
+    |                ^
+374 |                fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer',
+375 |                transition: 'all 0.15s'
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/PROJETOS/loja-roupas/frontend/src/pages/Configuracoes.tsx[39m
+[2m12:11:29[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "border" in object literal[33m
+343 |                background: abaAtiva === 'usuarios' ? B.navy : 'white',
+344 |                color: abaAtiva === 'usuarios' ? B.white : B.muted,
+345 |                border: abaAtiva === 'usuarios' ? 'none' : `1px solid ${B.border}`,
+    |                ^
+346 |                fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer',
+347 |                transition: 'all 0.15s'
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/PROJETOS/loja-roupas/frontend/src/pages/Configuracoes.tsx[39m
+[2m12:11:29[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "border" in object literal[33m
+357 |                background: abaAtiva === 'backup' ? B.navy : 'white',
+358 |                color: abaAtiva === 'backup' ? B.white : B.muted,
+359 |                border: abaAtiva === 'backup' ? 'none' : `1px solid ${B.border}`,
+    |                ^
+360 |                fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer',
+361 |                transition: 'all 0.15s'
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/PROJETOS/loja-roupas/frontend/src/pages/Configuracoes.tsx[39m
+[2m12:11:29[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [33mwarning: [33mDuplicate key "border" in object literal[33m
+371 |                background: abaAtiva === 'diagnostico' ? B.navy : 'white',
+372 |                color: abaAtiva === 'diagnostico' ? B.white : B.muted,
+373 |                border: abaAtiva === 'diagnostico' ? 'none' : `1px solid ${B.border}`,
+    |                ^
+374 |                fontWeight: 700, fontSize: '0.88rem', cursor: 'pointer',
+375 |                transition: 'all 0.15s'
+[39m
+  Plugin: [35mvite:esbuild[39m
+  File: [36mC:/PROJETOS/loja-roupas/frontend/src/pages/Configuracoes.tsx[39m

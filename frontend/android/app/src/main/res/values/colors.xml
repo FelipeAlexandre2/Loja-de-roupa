@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- TT Store Brand Colors -->
+    <color name="colorPrimary">#1B2E5E</color>
+    <color name="colorPrimaryDark">#111D3D</color>
+    <color name="colorAccent">#C8102E</color>
+    <color name="colorBackground">#1B2E5E</color>
+</resources>

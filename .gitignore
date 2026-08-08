@@ -1,0 +1,24 @@
+# Node dependencies
+node_modules/
+dist/
+dist-electron/
+frontend/dist/
+frontend/dist-electron/
+
+# Java build
+target/
+*.class
+*.jar
+
+# Environment files
+.env
+.env.local
+
+# Logs and Scratch
+*.log
+*.txt
+scratch/
+
+# OS metadata
+.DS_Store
+Thumbs.db

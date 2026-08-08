@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  ttstore:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ttstore_app
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mantém dados do banco e fotos salvos mesmo recriando o container
+      - ./data:/root/.ttstore/data
+      - ./uploads:/root/.ttstore/uploads

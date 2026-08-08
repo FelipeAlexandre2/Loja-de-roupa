@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Instalar TT Store</title>
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1B2E5E" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(160deg, #111D3D 0%, #1B2E5E 50%, #243A72 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      color: white;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.3);
+      margin: 0 auto 1.5rem;
+      display: block;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.4rem;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 2rem;
+    }
+
+    .step {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      text-align: left;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .step:nth-child(1) { animation-delay: 0.1s; }
+    .step:nth-child(2) { animation-delay: 0.2s; }
+    .step:nth-child(3) { animation-delay: 0.3s; }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #C8102E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(200,16,46,0.4);
+    }
+
+    .step-text { font-size: 0.88rem; color: rgba(255,255,255,0.85); line-height: 1.5; }
+    .step-text strong { color: white; }
+    .step-text code {
+      background: rgba(255,255,255,0.15);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.82rem;
+    }
+
+    /* Android / iOS tabs */
+    .tabs {
+      display: flex;
+      background: rgba(0,0,0,0.25);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 1.5rem;
+      gap: 4px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 0.55rem;
+      border: none;
+      border-radius: 9px;
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      background: #C8102E;
+      color: white;
+      box-shadow: 0 4px 12px rgba(200,16,46,0.4);
+    }
+
+    .steps-android, .steps-ios { display: none; }
+    .steps-android.show, .steps-ios.show { display: block; }
+
+    .open-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 1rem;
+      background: #C8102E;
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      margin-top: 1.5rem;
+      box-shadow: 0 6px 20px rgba(200,16,46,0.45);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .open-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(200,16,46,0.5); }
+
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+      margin: 1.5rem 0;
+    }
+
+    .footer {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.3);
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    /* Ícone de seta animado (iOS) */
+    .share-icon {
+      display: inline-block;
+      animation: bounce 1.5s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-4px); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <img src="/logo.png" alt="TT Store" class="logo" />
+    <h1>TT Store</h1>
+    <p class="subtitle">Instale o app no seu celular — sem loja de aplicativos</p>
+
+    <!-- Tabs Android / iOS -->
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('android')">🤖 Android</button>
+      <button class="tab" onclick="showTab('ios')">🍎 iPhone / iPad</button>
+    </div>
+
+    <!-- Passos Android -->
+    <div class="steps-android show" id="steps-android">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          Abra este link no <strong>Google Chrome</strong> no seu celular Android
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          Toque no menu <code>⋮</code> (três pontinhos) no canto superior direito
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          Toque em <strong>"Adicionar à tela inicial"</strong> ou <strong>"Instalar app"</strong>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          Confirme tocando em <strong>"Adicionar"</strong> — pronto! 🎉
+        </div>
+      </div>
+    </div>
+
+    <!-- Passos iOS -->
+    <div class="steps-ios" id="steps-ios">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          Abra este link no <strong>Safari</strong> (não funciona no Chrome no iPhone)
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          Toque no ícone de <strong>compartilhar</strong> <span class="share-icon">⬆</span> na barra inferior
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          Role para baixo e toque em <strong>"Adicionar à Tela de Início"</strong>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          Toque em <strong>"Adicionar"</strong> — o ícone TT Store vai aparecer na sua tela! 🎉
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <a href="/" class="open-btn">
+      🚀 Abrir o TT Store
+    </a>
+  </div>
+
+  <p class="footer">
+    TT Store &amp; Barbearia — Sistema de Gestão<br/>
+    Conecte-se ao Wi-Fi da loja para usar o app
+  </p>
+
+  <script>
+    function showTab(tab) {
+      document.getElementById('steps-android').classList.remove('show');
+      document.getElementById('steps-ios').classList.remove('show');
+      document.getElementById('steps-' + tab).classList.add('show');
+
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    // Auto-detecta Android ou iOS e seleciona a aba certa
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.includes('iphone') || ua.includes('ipad')) {
+      document.querySelectorAll('.tab')[1].click();
+    }
+  </script>
+
+</body>
+</html>

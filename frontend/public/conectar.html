@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Conectar ao TT Store</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(160deg, #111D3D, #1B2E5E 60%, #243A72);
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+    .card {
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      animation: fadeUp 0.5s ease;
+    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    .logo { width: 80px; height: 80px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.3); margin: 0 auto 1.25rem; display: block; }
+    h1 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.3rem; }
+    .sub { font-size: 0.85rem; color: rgba(255,255,255,0.5); margin-bottom: 2rem; }
+
+    /* QR Code Box */
+    .qr-box {
+      background: white;
+      border-radius: 16px;
+      padding: 1.25rem;
+      display: inline-block;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    #qrcode canvas, #qrcode img { display: block; }
+
+    .url-display {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 0.7rem 1rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 0.5px;
+      margin-bottom: 1.5rem;
+      word-break: break-all;
+    }
+
+    .instrucao {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+      background: rgba(255,255,255,0.07);
+      border-radius: 12px; padding: 0.85rem 1rem;
+      margin-bottom: 0.6rem; text-align: left;
+      font-size: 0.84rem; color: rgba(255,255,255,0.85);
+    }
+    .instrucao .num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: #C8102E; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 0.78rem;
+    }
+
+    .btn-abrir {
+      display: block; width: 100%; padding: 1rem;
+      background: #C8102E; color: white; border: none;
+      border-radius: 14px; font-size: 1rem; font-weight: 700;
+      text-decoration: none; margin-top: 1.5rem; cursor: pointer;
+      box-shadow: 0 6px 20px rgba(200,16,46,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-abrir:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(200,16,46,0.5); }
+
+    .footer { margin-top: 1.75rem; font-size: 0.72rem; color: rgba(255,255,255,0.3); }
+
+    .pill {
+      display: inline-block;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.72rem;
+      margin-bottom: 1.25rem;
+      color: rgba(255,255,255,0.6);
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <img src="/logo.png" alt="TT Store" class="logo"/>
+  <h1>TT Store</h1>
+  <p class="sub">Aponte a câmera do celular para o QR Code</p>
+
+  <div class="pill">📶 Conecte-se ao Wi-Fi da loja primeiro</div>
+
+  <!-- QR Code gerado automaticamente -->
+  <div class="qr-box">
+    <div id="qrcode"></div>
+  </div>
+
+  <div class="url-display" id="url-display">Carregando...</div>
+
+  <div class="instrucao">
+    <div class="num">1</div>
+    <span>Conecte o celular no <strong>Wi-Fi da loja</strong></span>
+  </div>
+  <div class="instrucao">
+    <div class="num">2</div>
+    <span>Abra a <strong>câmera</strong> do celular e aponte para o QR Code acima</span>
+  </div>
+  <div class="instrucao">
+    <div class="num">3</div>
+    <span>Toque na notificação que aparecer para <strong>abrir o app</strong></span>
+  </div>
+
+  <a href="/" class="btn-abrir" id="btn-abrir">🚀 Abrir TT Store (neste dispositivo)</a>
+
+  <p class="footer">TT Store & Barbearia — Sistema de Gestão Interno</p>
+</div>
+
+<!-- QR Code library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  // Pega o endereço atual (funciona com qualquer IP ou hostname)
+  var base = window.location.origin;
+  var appUrl = base + '/';
+
+  // Mostra a URL
+  document.getElementById('url-display').textContent = appUrl;
+  document.getElementById('btn-abrir').href = appUrl;
+
+  // Gera o QR Code
+  new QRCode(document.getElementById('qrcode'), {
+    text: appUrl,
+    width: 200,
+    height: 200,
+    colorDark: '#1B2E5E',
+    colorLight: '#FFFFFF',
+    correctLevel: QRCode.CorrectLevel.H
+  });
+</script>
+</body>
+</html>
