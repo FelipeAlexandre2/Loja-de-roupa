@@ -470,19 +470,22 @@ const PDV: React.FC = () => {
 
         {/* Checkbox Imprimir Recibo / Nota */}
         <label style={{
-          display: 'flex', alignItems: 'center', gap: '0.5rem',
-          fontSize: '0.8rem', fontWeight: 700, color: '#1B2E5E',
-          cursor: 'pointer', marginBottom: '0.65rem',
-          userSelect: 'none', background: '#F8FAFC', padding: '0.55rem 0.75rem',
-          borderRadius: '8px', border: '1px solid #E2E8F0'
+          display: 'flex', alignItems: 'center', gap: '0.45rem',
+          fontSize: '0.74rem', fontWeight: 700, color: imprimirNota ? '#1B2E5E' : '#64748B',
+          cursor: 'pointer', marginBottom: '0.5rem', marginTop: '0.1rem',
+          userSelect: 'none', background: imprimirNota ? '#F0F4FF' : '#F8FAFC',
+          padding: '0.4rem 0.6rem', borderRadius: '7px',
+          border: `1px solid ${imprimirNota ? '#C7D4F0' : '#E2E8F0'}`,
+          transition: 'all 0.15s'
         }}>
           <input
             type="checkbox"
             checked={imprimirNota}
             onChange={e => setImprimirNota(e.target.checked)}
-            style={{ width: 17, height: 17, accentColor: '#1B2E5E', cursor: 'pointer' }}
+            style={{ width: 14, height: 14, accentColor: '#1B2E5E', cursor: 'pointer' }}
           />
-          <Printer size={15} color="#1B2E5E" /> Imprimir Comprovante / Cupom
+          <Printer size={13} color={imprimirNota ? '#1B2E5E' : '#64748B'} />
+          <span>Imprimir comprovante ao finalizar</span>
         </label>
 
         <button onClick={handleFinalizarVenda}
